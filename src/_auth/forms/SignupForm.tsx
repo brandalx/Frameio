@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import React from "react";
+import React, { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
@@ -17,9 +17,11 @@ import { SignUpValidation } from "@/lib/validation";
 import Loader from "@/components/shared/Loader";
 import { Link } from "react-router-dom";
 import { createUserAccount } from "@/lib/appwrite/api";
+import { Eye, EyeOff } from "lucide-react";
 
 const SignupForm = () => {
-  const isLoading = true;
+  const [shownPassword, setShwonPassword] = useState(false);
+  const isLoading = false;
   //  Form defenition.
   const form = useForm<z.infer<typeof SignUpValidation>>({
     resolver: zodResolver(SignUpValidation),
@@ -34,6 +36,8 @@ const SignupForm = () => {
   // submit handler.
   async function onSubmit(values: z.infer<typeof SignUpValidation>) {
     const newUser = await createUserAccount(values);
+
+    console.log(newUser);
   }
 
   return (
@@ -57,6 +61,7 @@ const SignupForm = () => {
                 <FormLabel>Name</FormLabel>
                 <FormControl>
                   <Input
+                    autoComplete="given-name"
                     type="text"
                     className="shad-input"
                     placeholder="Enter your name here"
@@ -76,6 +81,7 @@ const SignupForm = () => {
                 <FormLabel>Username</FormLabel>
                 <FormControl>
                   <Input
+                    autoComplete="username"
                     type="text"
                     className="shad-input"
                     placeholder="Type your username here"
@@ -96,6 +102,7 @@ const SignupForm = () => {
                 <FormLabel>Email</FormLabel>
                 <FormControl>
                   <Input
+                    autoComplete="email"
                     type="text"
                     className="shad-input"
                     placeholder="Provide correct email here"
@@ -114,12 +121,21 @@ const SignupForm = () => {
               <FormItem>
                 <FormLabel>Password</FormLabel>
                 <FormControl>
-                  <Input
-                    type="text"
-                    className="shad-input"
-                    placeholder="Be sure to create  a strong password"
-                    {...field}
-                  />
+                  <div className="relative flex items-center">
+                    <Input
+                      autoComplete="new-password"
+                      type={shownPassword ? "text" : "password"}
+                      className="shad-input w-full pr-6"
+                      placeholder="Be sure to create a strong password"
+                      {...field}
+                    />
+                    <span
+                      className="absolute inset-y-0 right-0 flex items-center px-3 cursor-pointer"
+                      onClick={() => setShwonPassword(!shownPassword)}
+                    >
+                      {shownPassword ? <Eye /> : <EyeOff />}
+                    </span>
+                  </div>
                 </FormControl>
 
                 <FormMessage />
