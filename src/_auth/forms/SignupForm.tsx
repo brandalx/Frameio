@@ -18,9 +18,12 @@ import Loader from "@/components/shared/Loader";
 import { Link } from "react-router-dom";
 import { createUserAccount } from "@/lib/appwrite/api";
 import { Eye, EyeOff } from "lucide-react";
+import { useToast } from "@/components/ui/use-toast";
 
 const SignupForm = () => {
   const [shownPassword, setShwonPassword] = useState(false);
+  const { toast } = useToast();
+
   const isLoading = false;
   //  Form defenition.
   const form = useForm<z.infer<typeof SignUpValidation>>({
@@ -38,7 +41,13 @@ const SignupForm = () => {
     const newUser = await createUserAccount(values);
 
     if (!newUser) {
-      return;
+      return toast({
+        variant: "destructive",
+        title: "Sign up failed. Please try again",
+        description:
+          "Something went wrong. Try to reload this page and sign up again.",
+      });
+      const session = await signInAccount;
     }
   }
 
