@@ -12,11 +12,12 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-
+import { Loader2 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { SignUpValidation } from "@/lib/validation";
 
 const SignupForm = () => {
+  const isLoading = true;
   //  Form defenition.
   const form = useForm<z.infer<typeof SignUpValidation>>({
     resolver: zodResolver(SignUpValidation),
@@ -123,7 +124,16 @@ const SignupForm = () => {
               </FormItem>
             )}
           />
-          <Button type="submit">Submit</Button>
+          <Button className="shad-button_primary" type="submit">
+            {isLoading ? (
+              <div className="flex justify-center items-center">
+                <div className="flex center hap-2">Loading </div>
+                <Loader2 className="  text-light-1 animate-spin h-[16px]" />
+              </div>
+            ) : (
+              " Sign Up"
+            )}
+          </Button>
         </form>
       </div>
     </Form>
