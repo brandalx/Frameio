@@ -11,21 +11,26 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { Link, useNavigate } from "react-router-dom";
 
 import { Input } from "@/components/ui/input";
 import { SignUpValidation } from "@/lib/validation";
 import Loader from "@/components/shared/Loader";
-import { Link } from "react-router-dom";
+
 import { Eye, EyeOff } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 import {
   useCreateUserAccount,
   useSignInAccount,
 } from "@/lib/react-query/queriesAndMutations";
+import { useUserContext } from "@/context/AuthContext";
 
 const SignupForm = () => {
   const [shownPassword, setShwonPassword] = useState(false);
   const { toast } = useToast();
+  const { checkAuthUser, isLoading: isUserLoading } = useUserContext();
+
+  const navigate = useNavigate();
 
   const { mutateAsync: createUserAccount, isLoading: isCreatingUser } =
     useCreateUserAccount();
@@ -66,6 +71,20 @@ const SignupForm = () => {
       return toast({
         variant: "destructive",
         title: "Sign in failed. Please try again",
+        description:
+          "Something went wrong. Try to reload this page and sign up again.",
+      });
+    }
+
+    const isLoggedIn = await checkAuthUser();
+    if (isLoggedIn) {
+      form.reset();
+
+      navigate("/");
+    } else {
+      return toast({
+        variant: "destructive",
+        title: "Sign up failed. Please try again",
         description:
           "Something went wrong. Try to reload this page and sign up again.",
       });
