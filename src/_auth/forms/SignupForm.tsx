@@ -32,10 +32,10 @@ const SignupForm = () => {
 
   const navigate = useNavigate();
 
-  const { mutateAsync: createUserAccount, isLoading: isCreatingUser } =
+  const { mutateAsync: createUserAccount, isPending: isCreatingAccount } =
     useCreateUserAccount();
 
-  const { mutateAsync: signInAccount, isLoading: isSigningIn } =
+  const { mutateAsync: signInAccount, isPending: isSigningIn } =
     useSignInAccount();
 
   //  Form defenition.
@@ -194,7 +194,7 @@ const SignupForm = () => {
             )}
           />
           <Button className="shad-button_primary" type="submit">
-            {isCreatingUser ? (
+            {isCreatingAccount ? (
               <div className="flex justify-center items-center">
                 <div className="flex center gap-2">Loading </div>
                 <Loader />
