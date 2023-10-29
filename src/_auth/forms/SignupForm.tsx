@@ -16,15 +16,23 @@ import { Input } from "@/components/ui/input";
 import { SignUpValidation } from "@/lib/validation";
 import Loader from "@/components/shared/Loader";
 import { Link } from "react-router-dom";
-import { createUserAccount } from "@/lib/appwrite/api";
 import { Eye, EyeOff } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
+import {
+  useCreateUserAccount,
+  useSignInAccount,
+} from "@/lib/react-query/queriesAndMutations";
 
 const SignupForm = () => {
   const [shownPassword, setShwonPassword] = useState(false);
   const { toast } = useToast();
 
-  const isLoading = false;
+  const { mutateAsync: createUserAccount, isLoading: isCreatingUser } =
+    useCreateUserAccount();
+
+  const { mutateAsync: signInAccount, isLoading: isSigningIn } =
+    useSignInAccount();
+
   //  Form defenition.
   const form = useForm<z.infer<typeof SignUpValidation>>({
     resolver: zodResolver(SignUpValidation),
@@ -47,7 +55,20 @@ const SignupForm = () => {
         description:
           "Something went wrong. Try to reload this page and sign up again.",
       });
-      const session = await signInAccount;
+    }
+
+    const session = await signInAccount({
+      email: values.email,
+      password: values.password,
+    });
+
+    if (!session) {
+      return toast({
+        variant: "destructive",
+        title: "Sign in failed. Please try again",
+        description:
+          "Something went wrong. Try to reload this page and sign up again.",
+      });
     }
   }
 
@@ -154,7 +175,7 @@ const SignupForm = () => {
             )}
           />
           <Button className="shad-button_primary" type="submit">
-            {isLoading ? (
+            {isCreatingUser ? (
               <div className="flex justify-center items-center">
                 <div className="flex center gap-2">Loading </div>
                 <Loader />
