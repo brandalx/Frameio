@@ -1,10 +1,12 @@
 import React, { useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate, useLocation } from "react-router-dom";
 import { Button } from "../ui/button";
-
+import { INavLink } from "@/types";
 import { useToast } from "../ui/use-toast";
 import { useUserContext } from "@/context/AuthContext";
 import { useSignOutAccount } from "@/lib/react-query/queriesAndMutations";
+import { sidebarLinks } from "@/constants";
+import { link } from "fs";
 const LeftSidebar = () => {
   const { mutate: signOut, isSuccess } = useSignOutAccount();
   const navigate = useNavigate();
@@ -49,7 +51,25 @@ const LeftSidebar = () => {
             </p>
           </div>
         </Link>
-        <ul className="flex flex-col gap-6"></ul>
+        <ul className="flex flex-col gap-6">
+          {sidebarLinks.map((link: INavLink) => {
+            return (
+              <li className="leftsidebar_link" key={link.label}>
+                <NavLink
+                  to={link.route}
+                  className="flex gap-4 items-center p-4"
+                >
+                  <img
+                    src={link.imgURL}
+                    alt={link.label}
+                    className="group-hover:invert-white"
+                  />
+                  {link.label}
+                </NavLink>
+              </li>
+            );
+          })}
+        </ul>
       </div>
     </nav>
   );
