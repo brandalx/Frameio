@@ -49,6 +49,7 @@ const LeftSidebar = () => {
             </p>
           </div>
         </Link>
+        <ul className="flex flex-col gap-6"></ul>
       </div>
     </nav>
   );
