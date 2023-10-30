@@ -8,6 +8,7 @@ import { useSignOutAccount } from "@/lib/react-query/queriesAndMutations";
 import { sidebarLinks } from "@/constants";
 import { link } from "fs";
 const LeftSidebar = () => {
+  const { pathname } = useLocation();
   const { mutate: signOut, isSuccess } = useSignOutAccount();
   const navigate = useNavigate();
   const { toast } = useToast();
@@ -53,8 +54,14 @@ const LeftSidebar = () => {
         </Link>
         <ul className="flex flex-col gap-6">
           {sidebarLinks.map((link: INavLink) => {
+            const isActive = pathname === link.route;
             return (
-              <li className="leftsidebar_link" key={link.label}>
+              <li
+                className={`leftsidebar-link group transition-all ${
+                  isActive && "bg-primary-500"
+                }`}
+                key={link.label}
+              >
                 <NavLink
                   to={link.route}
                   className="flex gap-4 items-center p-4"
@@ -62,7 +69,9 @@ const LeftSidebar = () => {
                   <img
                     src={link.imgURL}
                     alt={link.label}
-                    className="group-hover:invert-white"
+                    className={`group-hover:invert-white ${
+                      isActive && "invert-white"
+                    }`}
                   />
                   {link.label}
                 </NavLink>
