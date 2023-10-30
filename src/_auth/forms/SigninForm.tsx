@@ -45,7 +45,7 @@ const SigninForm = () => {
   });
 
   // submit handler.
-  async function onSubmit(values: z.infer<typeof SignUpValidation>) {
+  async function onSubmit(values: z.infer<typeof SignInValidation>) {
     const session = await signInAccount({
       email: values.email,
       password: values.password,
@@ -83,54 +83,13 @@ const SigninForm = () => {
           Log in to your account
         </h2>
         <p className="text-light-3 small-medium md:base-regular">
-          To use Frameio provide your account details
+          Welcome back, please, enter your details
         </p>
 
         <form
           onSubmit={form.handleSubmit(onSubmit)}
           className="flex flex-col gap-5 w-full mt-4"
         >
-          <FormField
-            control={form.control}
-            name="name"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Name</FormLabel>
-                <FormControl>
-                  <Input
-                    autoComplete="given-name"
-                    type="text"
-                    className="shad-input"
-                    placeholder="Enter your name here"
-                    {...field}
-                  />
-                </FormControl>
-
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="username"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Username</FormLabel>
-                <FormControl>
-                  <Input
-                    autoComplete="username"
-                    type="text"
-                    className="shad-input"
-                    placeholder="Type your username here"
-                    {...field}
-                  />
-                </FormControl>
-
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
           <FormField
             control={form.control}
             name="email"
@@ -180,22 +139,22 @@ const SigninForm = () => {
             )}
           />
           <Button className="shad-button_primary" type="submit">
-            {isCreatingAccount ? (
+            {isUserLoading ? (
               <div className="flex justify-center items-center">
                 <div className="flex center gap-2">Loading </div>
                 <Loader />
               </div>
             ) : (
-              " Sign Up"
+              " Sign In"
             )}
           </Button>
           <p className="text-small-regular text-light-2 text-center mt-2 ">
-            Already have an account ?{" "}
+            Dont have an account yet?
             <Link
               to="/sign-in"
               className="text-primary-500 text-small-semibold ml-1"
             >
-              Log in{" "}
+              Sign Up
             </Link>
           </p>
         </form>
