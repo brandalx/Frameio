@@ -14,7 +14,7 @@ import {
 import { Link, useNavigate } from "react-router-dom";
 
 import { Input } from "@/components/ui/input";
-import { SignInValidation, SignUpValidation } from "@/lib/validation";
+import { SignInValidation } from "@/lib/validation";
 import Loader from "@/components/shared/Loader";
 
 import { Eye, EyeOff } from "lucide-react";
@@ -32,8 +32,7 @@ const SigninForm = () => {
 
   const navigate = useNavigate();
 
-  const { mutateAsync: signInAccount, isPending: isSigningIn } =
-    useSignInAccount();
+  const { mutateAsync: signInAccount, isPending } = useSignInAccount();
 
   //  Form defenition.
   const form = useForm<z.infer<typeof SignInValidation>>({
@@ -139,9 +138,9 @@ const SigninForm = () => {
             )}
           />
           <Button className="shad-button_primary" type="submit">
-            {isUserLoading ? (
+            {isPending ? (
               <div className="flex justify-center items-center">
-                <div className="flex center gap-2">Loading </div>
+                <div className="flex center gap-2">Logging in</div>
                 <Loader />
               </div>
             ) : (
@@ -151,7 +150,7 @@ const SigninForm = () => {
           <p className="text-small-regular text-light-2 text-center mt-2 ">
             Dont have an account yet?
             <Link
-              to="/sign-in"
+              to="/sign-up"
               className="text-primary-500 text-small-semibold ml-1"
             >
               Sign Up
