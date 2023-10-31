@@ -47,12 +47,14 @@ const PostForm = () => {
             <FormItem>
               <FormLabel className="shad-form_label ">Caption</FormLabel>
               <FormControl>
-                <Textarea placeholder="shadcn" {...field} />
+                <Textarea
+                  className="shad-textarea custom-scrollbar"
+                  placeholder="Share your post details here..."
+                  {...field}
+                />
               </FormControl>
-              <FormDescription>
-                This is your public display name.
-              </FormDescription>
-              <FormMessage />
+
+              <FormMessage className="shad-form_message" />
             </FormItem>
           )}
         />
