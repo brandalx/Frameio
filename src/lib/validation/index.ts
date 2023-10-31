@@ -24,3 +24,13 @@ export const SignInValidation = z.object({
     .min(8, { message: "Password must be at least 8 characters" })
     .max(50, { message: "Password is too long" }),
 });
+
+export const PostValidation = z.object({
+  caption: z
+    .string()
+    .min(1, { message: "Post must be at least 1 character" })
+    .max(2200, { message: "Post is too long" }),
+  file: z.custom<File[]>(),
+  location: z.string().min(2).max(100),
+  tags: z.string(),
+});
