@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "../ui/textarea";
+import FileUploader from "../shared/FileUploader";
 
 const formSchema = z.object({
   caption: z.string().min(2, {
@@ -52,6 +53,21 @@ const PostForm = () => {
                   placeholder="Share your post details here..."
                   {...field}
                 />
+              </FormControl>
+
+              <FormMessage className="shad-form_message" />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="file"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className="shad-form_label ">Add Photos</FormLabel>
+              <FormControl>
+                <FileUploader />
               </FormControl>
 
               <FormMessage className="shad-form_message" />
