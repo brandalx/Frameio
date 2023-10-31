@@ -46,10 +46,10 @@ const LeftSidebar = () => {
             className="h-14 rounded-full"
           />
           <div className="flex flex-col ">
-            <p className="body-bold ">
+            <div className="body-bold ">
               {user.name}
               <p className="small-regular text-light-3">@{user.username}</p>
-            </p>
+            </div>
           </div>
         </Link>
         <ul className="flex flex-col gap-6">

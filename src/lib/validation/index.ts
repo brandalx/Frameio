@@ -28,7 +28,7 @@ export const SignInValidation = z.object({
 export const PostValidation = z.object({
   caption: z
     .string()
-    .min(1, { message: "Post must be at least 1 character" })
+    .min(5, { message: "Post must be at least 5 characters" })
     .max(2200, { message: "Post is too long" }),
   file: z.custom<File[]>(),
   location: z.string().min(2).max(100),

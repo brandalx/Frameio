@@ -16,15 +16,16 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "../ui/textarea";
 import FileUploader from "../shared/FileUploader";
+import { PostValidation } from "@/lib/validation";
+import { Models } from "appwrite";
 
-const formSchema = z.object({
-  caption: z.string().min(2, {
-    message: "Username must be at least 2 characters.",
-  }),
-});
-const PostForm = ({ post }) => {
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+type PostFormProps = {
+  post?: Models.Document;
+};
+
+const PostForm = ({ post }: PostFormProps) => {
+  const form = useForm<z.infer<typeof PostValidation>>({
+    resolver: zodResolver(PostValidation),
     defaultValues: {
       caption: post ? post.caption : "",
       file: [],
@@ -33,9 +34,7 @@ const PostForm = ({ post }) => {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
+  function onSubmit(values: z.infer<typeof PostValidation>) {
     console.log(values);
   }
   return (
@@ -92,6 +91,7 @@ const PostForm = ({ post }) => {
                   placeholder="Enter location name here..."
                   type="text"
                   className="shad-input"
+                  {...field}
                 />
               </FormControl>
 
@@ -111,6 +111,7 @@ const PostForm = ({ post }) => {
               </FormLabel>
               <FormControl>
                 <Input
+                  {...field}
                   placeholder="Art, Expression, Fun, Holidays"
                   type="text"
                   className="shad-input"
