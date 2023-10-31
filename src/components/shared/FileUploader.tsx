@@ -1,16 +1,32 @@
 import React, { useCallback, useState } from "react";
-import { useDropzone } from "react-dropzone";
+import { FileWithPath, useDropzone } from "react-dropzone";
 import { Button } from "../ui/button";
 
-const FileUploader = () => {
+type FileUploaderProps = {
+  fieldChange: (FILES: File[]) => void;
+  mediaUrl: string;
+};
+
+const FileUploader = ({ fieldChange, mediaUrl }: FileUploaderProps) => {
+  const [file, setfile] = useState<File[]>([]);
   const [fileUrl, setfileUrl] = useState("");
-  const onDrop = useCallback((acceptedFiles) => {
-    // Do something with the files
-    // setfileUrl(acceptedFiles);
-    console.log(acceptedFiles);
-    setfileUrl(acceptedFiles[0].path);
-  }, []);
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
+  const onDrop = useCallback(
+    (acceptedFiles: FileWithPath[]) => {
+      // Do something with the files
+      // setfileUrl(acceptedFiles);
+      console.log(acceptedFiles);
+      setfile(acceptedFiles);
+      fieldChange(acceptedFiles);
+      setfileUrl(URL.createObjectURL(acceptedFiles[0]));
+    },
+    [fileUrl]
+  );
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    onDrop,
+    accept: {
+      "image/*": [".png", ",jpeg", ".jpg"],
+    },
+  });
   return (
     <div
       {...getRootProps()}
@@ -35,7 +51,7 @@ const FileUploader = () => {
           <h3 className="base-medium text-light-2 mb-2 mt-6">
             Drag photo here
           </h3>
-          <p className="text-light-4 small-regular mb-6">PNG, JPG</p>
+          <p className="text-light-4 small-regular mb-6">PNG, JPEG, JPG</p>
           <Button className="shad-button_dark_4">Select image</Button>
         </div>
       )}

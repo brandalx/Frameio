@@ -22,7 +22,7 @@ const formSchema = z.object({
     message: "Username must be at least 2 characters.",
   }),
 });
-const PostForm = () => {
+const PostForm = ({ post }) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -67,7 +67,10 @@ const PostForm = () => {
             <FormItem>
               <FormLabel className="shad-form_label ">Add Photos</FormLabel>
               <FormControl>
-                <FileUploader />
+                <FileUploader
+                  fieldChange={field.onChange}
+                  mediaUrl={post?.imageUrl}
+                />
               </FormControl>
 
               <FormMessage className="shad-form_message" />
