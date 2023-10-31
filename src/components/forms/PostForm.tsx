@@ -19,14 +19,23 @@ import FileUploader from "../shared/FileUploader";
 import { PostValidation } from "@/lib/validation";
 import { Models } from "appwrite";
 import { useMutation } from "@tanstack/react-query";
+import { useCreatePost } from "@/lib/react-query/queriesAndMutations";
+import { createPost } from "@/lib/appwrite/api";
+import { useUserContext } from "@/context/AuthContext";
+import { useToast } from "../ui/use-toast";
+import { useNavigate } from "react-router-dom";
 
 type PostFormProps = {
   post?: Models.Document;
 };
 
 const PostForm = ({ post }: PostFormProps) => {
+  const { user } = useUserContext();
   const { mutateAsync: CreatePost, isPending: isLoadingCreate } =
     useCreatePost();
+
+  const { toast } = useToast();
+  const navigate = useNavigate();
   const form = useForm<z.infer<typeof PostValidation>>({
     resolver: zodResolver(PostValidation),
     defaultValues: {
@@ -37,8 +46,18 @@ const PostForm = ({ post }: PostFormProps) => {
     },
   });
 
-  function onSubmit(values: z.infer<typeof PostValidation>) {
+  async function onSubmit(values: z.infer<typeof PostValidation>) {
     console.log(values);
+    const newPost = await createPost({
+      ...values,
+      userId: user.id,
+    });
+    if (!newPost) {
+      return toast({
+        title: "Something happened, please try again",
+      });
+    }
+    navigate("/");
   }
   return (
     <Form {...form}>
