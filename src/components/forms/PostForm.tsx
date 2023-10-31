@@ -93,7 +93,40 @@ const PostForm = () => {
             </FormItem>
           )}
         />
-        <Button type="submit">Submit</Button>
+
+        <FormField
+          control={form.control}
+          name="tags"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className="shad-form_label ">
+                Add Tags{" "}
+                <span className="text-light-3">(separated by comma " , ")</span>
+              </FormLabel>
+              <FormControl>
+                <Input
+                  placeholder="Art, Expression, Fun, Holidays"
+                  type="text"
+                  className="shad-input"
+                />
+              </FormControl>
+
+              <FormMessage className="shad-form_message" />
+            </FormItem>
+          )}
+        />
+        <div className="flex gap-4 items-center justify-end">
+          <Button type="button" className="shad-button_dark_4 hover:opacity-75">
+            Cancel
+          </Button>
+
+          <Button
+            type="submit"
+            className="hover:opacity-75 transition-all shad-button_primary whitespace-nowrap"
+          >
+            Submit
+          </Button>
+        </div>
       </form>
     </Form>
   );
