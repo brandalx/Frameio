@@ -49,7 +49,7 @@ const PostForm = () => {
               <FormLabel className="shad-form_label ">Caption</FormLabel>
               <FormControl>
                 <Textarea
-                  className="shad-textarea custom-scrollbar"
+                  className="shad-textarea  custom-scrollbar bg-slate-600"
                   placeholder="Share your post details here..."
                   {...field}
                 />
@@ -68,6 +68,25 @@ const PostForm = () => {
               <FormLabel className="shad-form_label ">Add Photos</FormLabel>
               <FormControl>
                 <FileUploader />
+              </FormControl>
+
+              <FormMessage className="shad-form_message" />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="location"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className="shad-form_label ">Add Location</FormLabel>
+              <FormControl>
+                <Input
+                  placeholder="Enter location name here..."
+                  type="text"
+                  className="shad-input"
+                />
               </FormControl>
 
               <FormMessage className="shad-form_message" />
