@@ -1,11 +1,18 @@
+import { useUserContext } from "@/context/AuthContext";
 import { formatDate } from "@/lib/helpers/formatDate";
 import { Models } from "appwrite";
 import React from "react";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+
+import "react-lazy-load-image-component/src/effects/blur.css";
+
 import { Link } from "react-router-dom";
 type IPostCard = {
   post: Models.Document;
 };
 const PostCard = ({ post }: IPostCard) => {
+  const { user } = useUserContext();
+  if (!post.creator) return;
   return (
     <div className="post-card">
       <div className="flex-between">
@@ -35,7 +42,41 @@ const PostCard = ({ post }: IPostCard) => {
             </div>
           </div>
         </div>
+        {user.id === post.creator.$id ? (
+          <Link
+            className={`transition-all hover:opacity-75`}
+            to={`/update-post/${post.$id}`}
+          >
+            <img
+              src="/assets/icons/edit.svg"
+              alt="edit"
+              width={20}
+              height={20}
+            />
+          </Link>
+        ) : (
+          <div></div>
+        )}
       </div>
+      <Link to={`/posts/${post.$id}`}>
+        <div className="small-medium lg:base-medium py-5">
+          <p>{post.caption}</p>
+          <ul className="flex gap-1 mt-2 ">
+            {post.tags.map((tag: string) => (
+              <li key={tag} className="text-light-3">
+                #{tag}
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <LazyLoadImage
+          className="post-card_img"
+          alt={`Lazy loaded image`}
+          src={post.imageUrl || "/assets/icons/profile-placeholder.svg"}
+          effect="blur"
+        />
+      </Link>
     </div>
   );
 };
