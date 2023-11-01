@@ -1,6 +1,9 @@
+import { Models } from "appwrite";
 import React from "react";
-
-const PostCard = () => {
+type IPostCard = {
+  post: Models.Document;
+};
+const PostCard = ({ post }: IPostCard) => {
   return <div>PostCard</div>;
 };
 
