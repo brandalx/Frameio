@@ -21,7 +21,7 @@ const PostStats = ({ post, userId }: IPostStatsProps) => {
 
   const { data: currentUser } = useUserContext();
 
-  const handleLikePost = () => {};
+  const handleLikePost = (e: React.MouseEvent) => {};
   const handleSavePost = () => {};
   return (
     <div className="flex justify-between items-center z-20">
@@ -35,19 +35,19 @@ const PostStats = ({ post, userId }: IPostStatsProps) => {
           alt="like"
           width={20}
           height={20}
-          onClick={() => {}}
+          onClick={handleLikePost}
           className="cursor-pointer"
         />
-        <p className="small-medium lg:base-medium">0</p>
+        <p className="small-medium lg:base-medium">{likes.length}</p>
       </div>
 
       <div className="flex gap-2 mr-5 ">
         <img
-          src="/assets/icons/save.svg"
+          src={isSaved ? "/assets/icons/saved.svg" : "/assets/icons/save.svg"}
           alt="like"
           width={20}
           height={20}
-          onClick={() => {}}
+          onClick={handleSavePost}
           className="cursor-pointer"
         />
       </div>
