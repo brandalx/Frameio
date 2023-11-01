@@ -1,6 +1,7 @@
 import { INewPost, INewUser } from "@/types";
 import { ID, Query } from "appwrite";
 import { account, appwriteConfig, avatars, databases, storage } from "./config";
+
 export async function createUserAccount(user: INewUser) {
   try {
     const newAccount = await account.create(
@@ -164,6 +165,22 @@ export async function deleteFile(fileId: string) {
     await storage.deleteFile(appwriteConfig.storageId, fileId);
 
     return { status: "ok" };
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function getRecentPosts() {
+  try {
+    const posts = await databases.listDocuments(
+      appwriteConfig.databaseId,
+      appwriteConfig.postCollectionId,
+      [Query.orderDesc("$createdAt"), Query.limit(20)]
+    );
+
+    if (!posts) throw Error;
+
+    return posts;
   } catch (error) {
     console.log(error);
   }
