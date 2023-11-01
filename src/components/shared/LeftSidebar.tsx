@@ -41,7 +41,7 @@ const LeftSidebar = () => {
           className="flex gap-3 items-center hover:opacity-70 transition-all"
         >
           <img
-            src={user.imageUrl || "/assets/icons/profile-placeholder.png"}
+            src={user.imageUrl || "/assets/icons/profile-placeholder.svg"}
             alt="profile"
             className="h-14 rounded-full"
           />
