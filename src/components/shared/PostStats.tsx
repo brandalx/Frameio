@@ -2,6 +2,7 @@ import { useUserContext } from "@/context/AuthContext";
 import { checkIsLiked } from "@/lib/helpers/checkIsLiked";
 import {
   useDeleteSavedPost,
+  useGetCurrentUser,
   useLikePost,
   useSavePost,
 } from "@/lib/react-query/queriesAndMutations";
@@ -19,7 +20,7 @@ const PostStats = ({ post, userId }: IPostStatsProps) => {
   const { mutate: savePost } = useSavePost();
   const { mutate: deleteSavePost } = useDeleteSavedPost();
 
-  const { data: currentUser } = useUserContext();
+  const { data: currentUser } = useGetCurrentUser();
 
   const handleLikePost = (e: React.MouseEvent) => {
     e.stopPropagation();
