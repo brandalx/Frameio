@@ -7,7 +7,7 @@ import {
   useSavePost,
 } from "@/lib/react-query/queriesAndMutations";
 import { Models } from "appwrite";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Loader from "./Loader";
 type IPostStatsProps = {
   post: Models.Document;
@@ -31,24 +31,25 @@ const PostStats = ({ post, userId }: IPostStatsProps) => {
 
   useEffect(() => {
     setIsSaved(!!savedPostRecord);
-  }, [currentUser]);
+  }, [currentUser, likes, savedPostRecord]);
 
-  const handleLikePost = (
-    e: React.MouseEvent<HTMLImageElement, MouseEvent>
-  ) => {
-    e.stopPropagation();
+  const handleLikePost = useCallback(
+    (e: React.MouseEvent<HTMLImageElement, MouseEvent>) => {
+      e.stopPropagation();
 
-    let likesArray = [...likes];
+      let likesArray = [...likes];
 
-    if (likesArray.includes(userId)) {
-      likesArray = likesArray.filter((Id) => Id !== userId);
-    } else {
-      likesArray.push(userId);
-    }
+      if (likesArray.includes(userId)) {
+        likesArray = likesArray.filter((Id) => Id !== userId);
+      } else {
+        likesArray.push(userId);
+      }
 
-    setLikes(likesArray);
-    likePost({ postId: post.$id, likesArray });
-  };
+      setlikes(likesArray);
+      likePost({ postId: post.$id, likesArray });
+    },
+    [likes, userId, likePost, post.$id]
+  );
 
   const handleSavePost = (
     e: React.MouseEvent<HTMLImageElement, MouseEvent>
