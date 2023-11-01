@@ -1,3 +1,4 @@
+import { formatDate } from "@/lib/helpers/formatDate";
 import { Models } from "appwrite";
 import React from "react";
 import { Link } from "react-router-dom";
@@ -20,9 +21,17 @@ const PostCard = ({ post }: IPostCard) => {
             />
           </Link>
           <div className="flex flex-col ">
-            <p>{post.creator.name}</p>
-            <div>
-              <p>{post.$createdAt}</p>-<p>{post.location}</p>
+            <p className="base-medium lg:body-bold text-light-1 ">
+              {post.creator.name}
+            </p>
+            <div className="flex-center gap-2 text-light-3 ">
+              <p className="subtle-semibold lg:small-regular">
+                {formatDate(post.$createdAt)}
+              </p>
+              -
+              <p className="subtle-semibold lg:small-regular">
+                {post.location}
+              </p>
             </div>
           </div>
         </div>
