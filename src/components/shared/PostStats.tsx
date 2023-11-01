@@ -1,4 +1,5 @@
 import { useUserContext } from "@/context/AuthContext";
+import { checkIsLiked } from "@/lib/helpers/checkIsLiked";
 import {
   useDeleteSavedPost,
   useLikePost,
@@ -19,11 +20,18 @@ const PostStats = ({ post, userId }: IPostStatsProps) => {
   const { mutate: deleteSavePost } = useDeleteSavedPost();
 
   const { data: currentUser } = useUserContext();
+
+  const handleLikePost = () => {};
+  const handleSavePost = () => {};
   return (
     <div className="flex justify-between items-center z-20">
       <div className="flex gap-2 mr-5 ">
         <img
-          src="/assets/icons/liked.svg"
+          src={
+            checkIsLiked(likes, userId)
+              ? "/assets/icons/liked.svg"
+              : "/assets/icons/like.svg"
+          }
           alt="like"
           width={20}
           height={20}
