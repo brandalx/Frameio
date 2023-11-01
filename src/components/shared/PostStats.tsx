@@ -21,8 +21,32 @@ const PostStats = ({ post, userId }: IPostStatsProps) => {
 
   const { data: currentUser } = useUserContext();
 
-  const handleLikePost = (e: React.MouseEvent) => {};
-  const handleSavePost = () => {};
+  const handleLikePost = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    let newLikes = [...likes];
+    const hasLiked = newLikes.includes(userId);
+    if (hasLiked) {
+      newLikes = newLikes.filter((id) => id !== userId);
+    } else {
+      newLikes.push(userId);
+    }
+    setlikes(newLikes);
+    likePost({ postId: post.$id, likesArray: newLikes });
+  };
+  const handleSavePost = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    const savePostRecord = currentUser?.save.find(
+      (record: Models.Document) => record.$id === post.$id
+    );
+
+    if (savePostRecord) {
+      setIsSaved(false);
+      deleteSavePost(savePostRecord.$id);
+    } else {
+      savePost({ postId: post.$id, userId });
+      setIsSaved(true);
+    }
+  };
   return (
     <div className="flex justify-between items-center z-20">
       <div className="flex gap-2 mr-5 ">
