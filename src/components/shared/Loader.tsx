@@ -1,10 +1,14 @@
 import { Loader2 } from "lucide-react";
-import React from "react";
+import React, { useEffect } from "react";
 
-const Loader = () => {
+interface ILoaderProps {
+  h?: number;
+}
+
+const Loader = ({ h = 16 }: ILoaderProps) => {
   return (
     <div className="flex-center w-full ">
-      <Loader2 className="  text-light-1 animate-spin h-[16px]" />
+      <Loader2 className={` text-light-1 animate-spin h-[${h}px]`} />
     </div>
   );
 };
