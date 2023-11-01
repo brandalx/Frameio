@@ -7,6 +7,7 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
 
 import { Link } from "react-router-dom";
+import PostStats from "./PostStats";
 type IPostCard = {
   post: Models.Document;
 };
@@ -77,6 +78,7 @@ const PostCard = ({ post }: IPostCard) => {
           effect="blur"
         />
       </Link>
+      <PostStats post={post} userId={user.id} />
     </div>
   );
 };
