@@ -1,7 +1,9 @@
 import PostForm from "@/components/forms/PostForm";
 import React from "react";
+import { useParams } from "react-router-dom";
 
 const EditPost = () => {
+  const { id } = useParams();
   return (
     <div className="flex flex-1">
       <div className="common-container">
@@ -12,7 +14,7 @@ const EditPost = () => {
             width={36}
             height={36}
           />
-          <h2 className="h3-bold md:h2-bold text-left w-full">Create Post</h2>
+          <h2 className="h3-bold md:h2-bold text-left w-full">Edit Post</h2>
         </div>
         <PostForm />
       </div>
