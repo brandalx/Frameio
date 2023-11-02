@@ -19,8 +19,10 @@ import FileUploader from "../shared/FileUploader";
 import { PostValidation } from "@/lib/validation";
 import { Models } from "appwrite";
 import { useMutation } from "@tanstack/react-query";
-import { useCreatePost } from "@/lib/react-query/queriesAndMutations";
-import { createPost } from "@/lib/appwrite/api";
+import {
+  useCreatePost,
+  useUpdatePost,
+} from "@/lib/react-query/queriesAndMutations";
 import { useUserContext } from "@/context/AuthContext";
 import { useToast } from "../ui/use-toast";
 import { useNavigate } from "react-router-dom";
@@ -32,8 +34,10 @@ type PostFormProps = {
 
 const PostForm = ({ post, action }: PostFormProps) => {
   const { user } = useUserContext();
-  const { mutateAsync: CreatePost, isPending: isLoadingCreate } =
+  const { mutateAsync: createPost, isPending: isLoadingCreate } =
     useCreatePost();
+  const { mutateAsync: updatePost, isPending: isLoadingUpdate } =
+    useUpdatePost();
 
   const { toast } = useToast();
   const navigate = useNavigate();
@@ -48,6 +52,21 @@ const PostForm = ({ post, action }: PostFormProps) => {
   });
 
   async function onSubmit(values: z.infer<typeof PostValidation>) {
+    if (post && action === "Update") {
+      const updatedPost = await updatePost({
+        ...values,
+        postId: post.$id,
+        imageId: post.imageId,
+        imageUrl: post.imageUrl,
+      });
+
+      if (!updatedPost) {
+        toast({
+          title: "Please try again",
+        });
+      }
+      return navigate(`/post/${post.$id}`);
+    }
     console.log(values);
     const newPost = await createPost({
       ...values,
@@ -153,10 +172,15 @@ const PostForm = ({ post, action }: PostFormProps) => {
           </Button>
 
           <Button
+            disabled={isLoadingCreate || isLoadingUpdate}
             type="submit"
             className="hover:opacity-75 transition-all shad-button_primary whitespace-nowrap"
           >
-            Submit
+            {isLoadingCreate || isLoadingUpdate
+              ? action === "Create"
+                ? "Creating post..."
+                : "Updating post..."
+              : action}
           </Button>
         </div>
       </form>

@@ -136,7 +136,6 @@ export const useGetPostById = (postId: string) => {
 
 export const useUpdatePost = () => {
   const queryClient = useQueryClient();
-
   return useMutation({
     mutationFn: (post: IUpdatePost) => updatePost(post),
     onSuccess: (data) => {
