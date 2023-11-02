@@ -65,7 +65,7 @@ const PostStats = ({ post, userId }: IPostStatsProps) => {
     setIsSaved(true);
   };
   return (
-    <div className="flex justify-between items-center z-20">
+    <div className="flex justify-between items-center z-20 ">
       <div className="flex gap-2 mr-5 ">
         <img
           src={
@@ -77,7 +77,7 @@ const PostStats = ({ post, userId }: IPostStatsProps) => {
           width={20}
           height={20}
           onClick={handleLikePost}
-          className="cursor-pointer"
+          className="cursor-pointer hover:opacity-80 transition-all"
         />
         <p className="small-medium lg:base-medium">{likes.length}</p>
       </div>
@@ -94,7 +94,7 @@ const PostStats = ({ post, userId }: IPostStatsProps) => {
             width={20}
             height={20}
             onClick={handleSavePost}
-            className="cursor-pointer"
+            className="cursor-pointer hover:opacity-80 transition-all"
           />
         )}
       </div>
