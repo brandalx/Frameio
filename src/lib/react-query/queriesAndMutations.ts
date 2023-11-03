@@ -13,14 +13,17 @@ import {
   getInfinitePosts,
   getPostById,
   getRecentPosts,
+  getUserById,
+  getUsers,
   likePost,
   savePost,
   searchPosts,
   signInAccount,
   signOutAccount,
   updatePost,
+  updateUser,
 } from "../appwrite/api";
-import { INewPost, INewUser, IUpdatePost } from "@/types";
+import { INewPost, INewUser, IUpdatePost, IUpdateUser } from "@/types";
 import { QUERY_KEYS } from "./queryKeys";
 
 export const useCreateUserAccount = () => {
@@ -183,13 +186,6 @@ export const useSearchPosts = (searchTerm: string) => {
   });
 };
 
-export const useGetCurrentUser = () => {
-  return useQuery({
-    queryKey: [QUERY_KEYS.GET_CURRENT_USER],
-    queryFn: getCurrentUser,
-  });
-};
-
 export const useGetUsers = (limit?: number) => {
   return useQuery({
     queryKey: [QUERY_KEYS.GET_USERS],
@@ -218,3 +214,4 @@ export const useUpdateUser = () => {
       });
     },
   });
+};
