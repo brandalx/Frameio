@@ -31,7 +31,9 @@ const Explore = () => {
 
   const shouldShowPosts =
     !shouldShowSearchResults &&
-    posts.pages.every((item) => item?.documents.keys.length === 0);
+    posts.pages.every((item) => item.documents.length === 0);
+
+  console.log(posts);
 
   return (
     <div className="explore-container">
@@ -60,6 +62,7 @@ const Explore = () => {
           />
         </div>
       </div>
+
       <div className="flex flex-wrap gap-9 w-full max-w-5xl">
         {shouldShowSearchResults ? (
           <SearchResults />
@@ -67,7 +70,7 @@ const Explore = () => {
           <p className="text-light-4 mt-10 text-center w-full">End of posts</p>
         ) : (
           posts.pages.map((item, index) => (
-            <GridPostList key={`page-${index}`} posts={item} />
+            <GridPostList key={`page-${index}`} posts={item.documents} />
           ))
         )}
       </div>
