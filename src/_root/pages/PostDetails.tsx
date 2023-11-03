@@ -1,6 +1,10 @@
 import Loader from "@/components/shared/Loader";
 import { formatDate } from "@/lib/helpers/formatDate";
-import { useGetPostById } from "@/lib/react-query/queriesAndMutations";
+import {
+  useDeletePost,
+  useGetPostById,
+  useGetUserPosts,
+} from "@/lib/react-query/queriesAndMutations";
 import React from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { LazyLoadImage } from "react-lazy-load-image-component";
@@ -9,15 +13,30 @@ import "react-lazy-load-image-component/src/effects/blur.css";
 import { useUserContext } from "@/context/AuthContext";
 import { Button } from "@/components/ui/button";
 import PostStats from "@/components/shared/PostStats";
+import GridPostList from "@/components/shared/GridPostList";
 
 const PostDetails = () => {
   const { id } = useParams();
-  const { user } = useUserContext();
-  const handleDeletePost = () => {};
-  const navigate = useNavigate();
-
   const { data: post, isPending } = useGetPostById(id || "");
+  const { user } = useUserContext();
+  const { mutate: deletePost } = useDeletePost();
+
+  const navigate = useNavigate();
+  const { data: userPosts, isPending: isUserPostLoading } = useGetUserPosts(
+    post?.creator.$id
+  );
+
   console.log(post);
+
+  const relatedPosts = userPosts?.documents.filter(
+    (userPost) => userPost.$id !== id
+  );
+
+  const handleDeletePost = () => {
+    deletePost({ postId: id, imageId: post?.imageId });
+    navigate(-1);
+  };
+
   return (
     <div className="post_details-container">
       <div className="hidden md:flex max-w-5xl w-full">
@@ -137,6 +156,11 @@ const PostDetails = () => {
         <h3 className="body-bold md:h3-bold w-full my-10">
           More Related Posts
         </h3>
+        {isUserPostLoading || !relatedPosts ? (
+          <Loader />
+        ) : (
+          <GridPostList posts={relatedPosts} />
+        )}
       </div>
     </div>
   );
