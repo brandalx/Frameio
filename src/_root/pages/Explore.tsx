@@ -1,14 +1,17 @@
 import GridPostList from "@/components/shared/GridPostList";
 import SearchResults from "@/components/shared/SearchResults";
 import { Input } from "@/components/ui/input";
+import useDebounce from "@/hooks/useDebounce";
 import { useSearchPosts } from "@/lib/react-query/queriesAndMutations";
 import React, { useState } from "react";
 
 const Explore = () => {
   const [searchValue, setSearchValue] = useState("");
 
+  const debouncedValue = useDebounce(searchValue, 500);
+
   const { data: searchPosts, isFetching: isSearchFetching } =
-    useSearchPosts(searchValue);
+    useSearchPosts(debouncedValue);
   // const posts = [];
   // const shouldShowSearchResults = searchValue !== "";
 
