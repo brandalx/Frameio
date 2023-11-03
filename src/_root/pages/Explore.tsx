@@ -1,40 +1,60 @@
 import GridPostList from "@/components/shared/GridPostList";
 import Loader from "@/components/shared/Loader";
-import SearchResults from "@/components/shared/SearchResults";
+
 import { Input } from "@/components/ui/input";
 import useDebounce from "@/hooks/useDebounce";
 import {
   useGetPosts,
   useSearchPosts,
 } from "@/lib/react-query/queriesAndMutations";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useInView } from "react-intersection-observer";
+export type SearchResultProps = {
+  isSearchFetching: boolean;
+  searchedPosts: any;
+};
+
+const SearchResults = ({
+  isSearchFetching,
+  searchedPosts,
+}: SearchResultProps) => {
+  if (isSearchFetching) {
+    return <Loader />;
+  } else if (searchedPosts && searchedPosts.documents.length > 0) {
+    return <GridPostList posts={searchedPosts.documents} />;
+  } else {
+    return (
+      <p className="text-light-4 mt-10 text-center w-full">No results found</p>
+    );
+  }
+};
 
 const Explore = () => {
-  const [searchValue, setSearchValue] = useState("");
-
+  const { ref, inView } = useInView();
   const { data: posts, fetchNextPage, hasNextPage } = useGetPosts();
 
-  const debouncedValue = useDebounce(searchValue, 500);
+  const [searchValue, setSearchValue] = useState("");
+  const debouncedSearch = useDebounce(searchValue, 500);
+  const { data: searchedPosts, isFetching: isSearchFetching } =
+    useSearchPosts(debouncedSearch);
 
-  const { data: searchPosts, isFetching: isSearchFetching } =
-    useSearchPosts(debouncedValue);
+  useEffect(() => {
+    if (inView && !searchValue) {
+      fetchNextPage();
+    }
+  }, [inView, searchValue]);
 
-  if (!posts) {
+  if (!posts)
     return (
-      <div className="flex-center w-full h-full ">
+      <div className="flex-center w-full h-full">
         <Loader />
       </div>
     );
-  }
 
   const shouldShowSearchResults = searchValue !== "";
-
   const shouldShowPosts =
     !shouldShowSearchResults &&
     posts.pages.every((item) => item.documents.length === 0);
-
-  console.log(posts);
-
   return (
     <div className="explore-container">
       <div className="explore-inner_container">
@@ -65,7 +85,10 @@ const Explore = () => {
 
       <div className="flex flex-wrap gap-9 w-full max-w-5xl">
         {shouldShowSearchResults ? (
-          <SearchResults />
+          <SearchResults
+            isSearchFetching={isSearchFetching}
+            searchedPosts={searchedPosts}
+          />
         ) : shouldShowPosts ? (
           <p className="text-light-4 mt-10 text-center w-full">End of posts</p>
         ) : (
@@ -74,6 +97,12 @@ const Explore = () => {
           ))
         )}
       </div>
+
+      {hasNextPage && !searchValue && (
+        <div ref={ref} className="mt-10">
+          <Loader />
+        </div>
+      )}
     </div>
   );
 };
