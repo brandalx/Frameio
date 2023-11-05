@@ -1,6 +1,8 @@
 import { Models } from "appwrite";
 import { Link } from "react-router-dom";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 
+import "react-lazy-load-image-component/src/effects/blur.css";
 import { Button } from "../ui/button";
 
 type UserCardProps = {
@@ -10,10 +12,11 @@ type UserCardProps = {
 const UserCard = ({ user }: UserCardProps) => {
   return (
     <Link to={`/profile/${user.$id}`} className="user-card">
-      <img
+      <LazyLoadImage
         src={user.imageUrl || "/assets/icons/profile-placeholder.svg"}
         alt="creator"
         className="rounded-full w-14 h-14"
+        effect="blur"
       />
 
       <div className="flex-center flex-col gap-1">

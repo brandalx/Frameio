@@ -13,6 +13,10 @@ import {
 import { LikedPosts } from ".";
 import { useGetUserById } from "@/lib/react-query/queriesAndMutations";
 
+import { LazyLoadImage } from "react-lazy-load-image-component";
+
+import "react-lazy-load-image-component/src/effects/blur.css";
+
 interface StabBlockProps {
   value: string | number;
   label: string;
@@ -43,13 +47,15 @@ const Profile = () => {
     <div className="profile-container">
       <div className="profile-inner_container">
         <div className="flex xl:flex-row flex-col max-xl:items-center flex-1 gap-7">
-          <img
+          <LazyLoadImage
+            alt="profile"
+            className="w-28 h-28 lg:h-36 lg:w-36 rounded-full"
             src={
               currentUser.imageUrl || "/assets/icons/profile-placeholder.svg"
             }
-            alt="profile"
-            className="w-28 h-28 lg:h-36 lg:w-36 rounded-full"
+            effect="blur"
           />
+
           <div className="flex flex-col flex-1 justify-between md:mt-2">
             <div className="flex flex-col w-full">
               <h1 className="text-center xl:text-left h3-bold md:h1-semibold w-full">
