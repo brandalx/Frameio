@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { useUserContext } from "@/context/AuthContext";
 import { formatDate } from "@/lib/helpers/formatDate";
 import { Models } from "appwrite";

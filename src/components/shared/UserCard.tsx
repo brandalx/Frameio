@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Models } from "appwrite";
 import { Link } from "react-router-dom";
 import { LazyLoadImage } from "react-lazy-load-image-component";

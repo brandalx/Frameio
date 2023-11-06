@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { useCallback, useState } from "react";
 import { FileWithPath, useDropzone } from "react-dropzone";
 

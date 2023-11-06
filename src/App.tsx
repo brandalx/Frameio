@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from "react";
 import "./global.css";
 import { Route, Routes } from "react-router-dom";

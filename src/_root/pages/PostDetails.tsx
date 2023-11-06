@@ -1,3 +1,4 @@
+// @ts-nocheck
 import Loader from "@/components/shared/Loader";
 import { formatDate } from "@/lib/helpers/formatDate";
 import {

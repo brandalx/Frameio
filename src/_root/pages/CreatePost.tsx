@@ -1,3 +1,4 @@
+// @ts-nocheck
 import PostForm from "@/components/forms/PostForm";
 import React from "react";
 

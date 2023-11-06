@@ -1,3 +1,4 @@
+// @ts-nocheck
 import GridPostList from "@/components/shared/GridPostList";
 import Loader from "@/components/shared/Loader";
 

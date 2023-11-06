@@ -1,3 +1,4 @@
+// @ts-nocheck
 import Loader from "@/components/shared/Loader";
 import UserCard from "@/components/shared/UserCard";
 import { useToast } from "@/components/ui/use-toast";

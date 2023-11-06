@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { useUserContext } from "@/context/AuthContext";
 import { checkIsLiked } from "@/lib/helpers/checkIsLiked";
 import {

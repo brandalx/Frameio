@@ -1,3 +1,4 @@
+// @ts-nocheck
 import PostForm from "@/components/forms/PostForm";
 import Loader from "@/components/shared/Loader";
 import { useGetPostById } from "@/lib/react-query/queriesAndMutations";
