@@ -10,6 +10,13 @@ Frameio is a dynamic social networking platform designed to foster community eng
 ![FlowWarp Preview](https://i.postimg.cc/ZnVXwwmf/Frame-24.jpg)
 
 
+## Porject Details
+You can read more info about htis porject on [brandnolandev.com](https://brandnolandev.com/projects/65464cd6d9ae22f43c38e606)
+
+## Live Preview
+The project is deployed and hosted on vercel - [frameio.vercel.app)](https://frameio.vercel.app/)
+
+
 
 ## Features
 
