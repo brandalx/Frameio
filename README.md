@@ -69,10 +69,10 @@ Frameio is released under the [MIT License](LICENSE.md).
 
 In the project directory, you can run:
 
-- `npm run dev` - Starts the Vite development server.
-- `npm run build` - Compiles and bundles the code for production.
-- `npm run lint` - Lints the codebase for potential errors.
-- `npm run preview` - Previews the production build locally.
+- `yarn run dev` - Starts the Vite development server.
+- `yarn run build` - Compiles and bundles the code for production.
+- `yarn run lint` - Lints the codebase for potential errors.
+- `yarn run preview` - Previews the production build locally.
 
 ## Dependencies
 
